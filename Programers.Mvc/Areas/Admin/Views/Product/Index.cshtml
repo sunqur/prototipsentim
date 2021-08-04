@@ -1,0 +1,97 @@
+﻿@model Programers.Entities.Dtos.ProductListDto
+@{
+    Layout = "_Layout";
+    ViewBag.Title = "Ürünler";
+}
+<ol class="breadcrumb mb-3 mt-2">
+    <li class="breadcrumb-item"><a asp-area="Admin" asp-controller="Home" asp-action="Index">Admin</a></li>
+    <li class="breadcrumb-item active"><a asp-area="Admin" asp-controller="Product" asp-action="Index">Ürünler</a></li>
+</ol>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table mr-1"></i>
+        Makaleler
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="productsTable" width="100%" cellspacing="0">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Kategori</th>
+                    <th>Başlık</th>
+                    <th>Küçük Resim</th>
+                    <th>Tarih</th>
+                    <th>Okunma Sayısı</th>
+                    <th>Yorum Sayısı</th>
+                    <th>Aktif Mi?</th>
+                    <th>Silinmiş Mi?</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>Oluşturan Kullanıcı Adı</th>
+                    <th>Son Düzenlenme Tarihi</th>
+                    <th>Son Düzenleyen Kullanıcı Adı</th>
+                    <th>İşlemler</th>
+                </tr>
+                </thead>
+                <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Kategori</th>
+                    <th>Başlık</th>
+                    <th>Küçük Resim</th>
+                    <th>Tarih</th>
+                    <th>Okunma Sayısı</th>
+                    <th>Yorum Sayısı</th>
+                    <th>Aktif Mi?</th>
+                    <th>Silinmiş Mi?</th>
+                    <th>Oluşturulma Tarihi</th>
+                    <th>Oluşturan Kullanıcı Adı</th>
+                    <th>Son Düzenlenme Tarihi</th>
+                    <th>Son Düzenleyen Kullanıcı Adı</th>
+                    <th>İşlemler</th>
+                </tr>
+                </tfoot>
+                <tbody>
+                @foreach (var product in Model.Products)
+                {
+                    <tr name="@product.Id">
+                        <td>@product.Id</td>
+                        <td>@product.Category.Name</td>
+                        <td>@product.Title</td>
+                        <td><img src="~/img/@product.Thumbnail" class="my-image-table" /></td>
+                        <td>@product.Date.ToShortDateString()</td>
+                        <td>@product.ViewsCount</td>
+                        <td>@product.CommentCount</td>
+                        <td>@(product.IsActive ? "Evet" : "Hayır")</td>
+                        <td>@(product.IsDeleted ? "Evet" : "Hayır")</td>
+                        <td>@product.CreatedDate.ToShortDateString()</td>
+                        <td>@product.CreatedByName</td>
+                        <td>@product.ModifiedDate.ToShortDateString()</td>
+                        <td>@product.ModifiedByName</td>
+                        <td>
+                            <a class="btn btn-primary btn-sm btn-update" data-id="@product.Id" asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-productId="@product.Id"><span class="fas fa-edit"></span></a>
+                            <button class="btn btn-danger btn-sm btn-delete" data-id="@product.Id"><span class="fas fa-minus-circle"></span></button>
+                        </td>
+                    </tr>
+                }
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/AdminLTE/js/productIndex.js" type="application/ecmascript"></script>
+    <script>
+        $(document).ready(function() {
+            $('#btnAdd').click(function() {
+                window.location.href = '@Url.Action("Add","Product")';
+            });
+        });
+    </script>
+}
+@section Styles
+{
+    
+}
